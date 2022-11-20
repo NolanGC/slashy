@@ -29,6 +29,6 @@
 		}
 	],
 	"permissions": [
-		"https://www.notion.so/", "clipboardWrite", "clipboardRead", "storage"
+		"https://www.notion.so", "clipboardWrite", "clipboardRead", "storage"
 	]
 }

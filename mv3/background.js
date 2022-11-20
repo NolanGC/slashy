@@ -1,3 +1,27 @@
+const manifest = chrome.runtime.getManifest();
+
+function installContentScript() {
+  // iterate over all content_script definitions from manifest
+  // and install all their js files to the corresponding hosts.
+  let contentScripts = manifest.content_scripts;
+  for (let i = 0; i < contentScripts.length; i++) {
+    let contScript = contentScripts[i];
+    chrome.tabs.query({ url: contScript.matches }, function(foundTabs) {
+      for (let j = 0; j < foundTabs.length; j++) {
+        let javaScripts = contScript.js;
+        for (let k = 0; k < javaScripts.length; k++) {
+          chrome.tabs.executeScript(foundTabs[j].id, {
+            file: javaScripts[k]
+          });          
+        }
+      }
+    });
+  }
+}
+
+chrome.runtime.onInstalled.addListener(installContentScript);
+
+
 chrome.runtime.onInstalled.addListener(function(details) {
 	if (details.reason == "install") {
 			// Set commands on install
